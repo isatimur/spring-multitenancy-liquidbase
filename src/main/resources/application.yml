@@ -1,0 +1,43 @@
+#In case of using FlyWay
+#spring.liquibase.enabled=true
+#
+#spring.application.name=Liquidbase demo
+#spring.liquibase.change-log=classpath:db/changelog/changelog-master.xml
+#spring.datasource.url=jdbc:postgresql://localhost:5432/postgres
+#spring.datasource.driver-class-name=org.postgresql.Driver
+#spring.datasource.username=postgres
+#spring.datasource.password=admin
+#spring.jpa.hibernate.ddl-auto=none
+#spring.h2.console.enabled=true
+
+spring:
+  dataSources:
+    - tenantId: dasreda
+      url: jdbc:postgresql://localhost:5432/postgres
+      username: postgres
+      password: admin
+      driver-class-name: org.postgresql.Driver
+      liquibase:
+        enabled: true
+        default-schema: public
+        change-log: classpath:db/master/changelog/db.changelog-master.yaml
+    - tenantId: coop
+      url: jdbc:postgresql://localhost:5432/tenant2
+      username: postgres
+      password: admin
+      driver-class-name: org.postgresql.Driver
+  liquibase:
+    enabled: true
+    default-schema: public
+    change-log: classpath:db/others/changelog/db.changelog-master.yaml
+  jpa:
+    hibernate:
+      ddl-auto: none
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+    database: postgresql
+    properties:
+      hibernate:
+        temp:
+          use_jdbc_metadata_defaults: false
+  profiles:
+    active: dev
